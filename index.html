@@ -1,0 +1,39 @@
+<html>
+	<head>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script>
+	
+	$(document).ready(function(){		
+    var json_URI = "https://picasaweb.google.com/data/feed/base/"
+        + "user/"       +   "djredhand"
+        + "/albumid/"   +   "5278198668744050225"
+        + "?alt="       +   "json"
+        + "&thumbsize=" +   100;
+		
+		console.log(json_URI);
+		
+		$.getJSON(json_URI, function(data){
+			console.log(data);
+				$.each(data.feed.entry, function(i,item){					
+					//Thumbnail URL
+					$.each(item.media$group.media$thumbnail, function(i,item){
+						var photo_Thumb_URL = item.url;
+						$('#images').append('<img src="' + photo_Thumb_URL + '" /><br/>');
+					});
+					//Photo Title
+					var photo_Title = item.media$group.media$title.$t;
+					$('#images').append("Image Photo_Title: " + photo_Title + '<br />');
+					//Photo Description
+					var photo_Description = item.media$group.media$description.$t;
+					$('#images').append("Image Photo Description: " + photo_Description + '<br /><br />');
+				});
+		});
+});
+</script>
+		
+	</head>
+	<body>
+    	<div id="images"></div>
+	</body>
+	
+</html>

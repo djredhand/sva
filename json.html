@@ -1,0 +1,27 @@
+<html>
+	<head>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script>
+	
+	$(document).ready(function(){
+		
+    var json_URI = "https://picasaweb.google.com/data/feed/base/"
+        + "user/"       +   "djredhand"
+        + "/albumid/"   +   "5278198668744050225"
+        + "?alt="       +   "json"
+        + "&thumbsize=" +   100;
+		
+		console.log(json_URI);
+		
+		$.getJSON(json_URI, function(data){
+			console.log(data);
+		});
+});
+</script>
+		
+	</head>
+	<body>
+    	<div id="images"></div>
+	</body>
+	
+</html>
