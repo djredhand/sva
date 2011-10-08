@@ -1,9 +1,36 @@
 <html>
 	<head>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-		<script>
-	
+<script>
+//test if user is already defined
 $(document).ready(function(){
+	if (window.location.search.split("?user=", 2) > 1){
+		var userFromURL = (window.location.search.split("?user=", 2));
+		console.log("the non defined user is: " + userFromURL[1]);
+	
+	}
+	else{
+		var userFromURL = (window.location.search.split("?user=", 2));
+		console.log("the defined user is: " + userFromURL[1]);
+		$("#user").val(userFromURL[1]);
+		submitButton();
+	}
+
+});
+
+var submitButton = function (){
+	
+	var user = $("#user").val();
+	if (user.length == 0){
+	$("#error").text("Please Enter a Username!")
+	}
+	else{
+		$("#error").text("");
+		loadPicassa();
+		
+	}
+}
+var loadPicassa = function(){
         var json_Album_URI = "https://picasaweb.google.com/data/feed/base/"
             + "user/"       +   "djredhand"
             + "?alt="       +   "json"
@@ -73,11 +100,18 @@ $.ajax({
     
         });
     });
-});
+};
+
+
 </script>
 		
 	</head>
 	<body>
+    	<form>
+        	<input id="user" type="text" name="user" size="25">
+            <input type="button" value="Submit" onClick="submitButton();">
+        </form>
+        <div id="error"></div>
     	<div id="images"></div>
 	</body>
 	
