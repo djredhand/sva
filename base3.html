@@ -32,8 +32,10 @@ var submitButton = function (){
 }
 var loadPicassa = function(user){
 		var jsonAlbumObj = [];
-		function jsonPhotoObj(){
-			};
+		var jsonPhotoObj = []
+		function Album_Photos(){
+			this.photos = []
+		}
         var json_Album_URI = "https://picasaweb.google.com/data/feed/base/"
             + "user/"       +   user
             + "?alt="       +   "json"
@@ -44,7 +46,7 @@ var loadPicassa = function(user){
 
     $.getJSON(json_Album_URI,
     function(data){
-        $.each(data.feed.entry, function(i,item){
+        $.each(data.feed.entry, function(i,item){		
 			jsonAlbumObj.push(
 				{	
 					Album:  item
@@ -82,15 +84,16 @@ $.ajax({
     type: 'GET',
     url: json_Photo_URI,
     success : function(data){
-		console.log('fired ' + i);
 		
-       $.each(data.feed.entry, function(i,item){
-		  var pushInto = new jsonPhotoObj(item);
-		  console.log(pushInto);
-            /*$('#images').append("Album Photos: <br />");
+		var album = new Album_Photos;
+		album.photos[i] = data.feed.entry
+		jsonPhotoObj.push(album);
+       /*$.each(data.feed.entry, function(i,item){
+			 
+            //$('#images').append("Album Photos: <br />");
             //Photo URL
-			//console.log(i + "is the # of iterations")
             $.each(item.media$group.media$content, function(i,item){
+				
                 var photo_URL = item.url;
                 $('#images').append("Image Photo URL: " + photo_URL + '<br />');
             });
@@ -105,9 +108,10 @@ $.ajax({
             //Photo Description
             var photo_Description = item.media$group.media$description.$t;
             $('#images').append("Image Photo Description: " + photo_Description + '<br /><br />');
-			*/
+			
 			//console.log(pushInto)
-        });
+			
+        });*/
     },
     dataType: 'json',
     async: false
@@ -115,9 +119,8 @@ $.ajax({
 });
     
         });///END .getJSON function
-		//console.log(jsonAlbumObj.Album)
-		console.log(jsonPhotoObj);
-		//console.log(pushInto)
+		console.log(jsonPhotoObj)
+		
     });
 	
 };
