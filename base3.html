@@ -30,14 +30,15 @@ var submitButton = function (){
 		
 	}
 }
-var loadPicassa = function(user){
-		var jsonAlbumObj = [];
+var jsonAlbumObj = [];
 		
 		var jsonPhotoObj = [];
 		
 		function Album_Photos(){
 			this.photos = []
 		};
+var loadPicassa = function(user){
+		
         var json_Album_URI = "https://picasaweb.google.com/data/feed/base/"
             + "user/"       +   user
             + "?alt="       +   "json"
@@ -121,12 +122,17 @@ $.ajax({
 });
     
         });///END .getJSON function
-		console.log(jsonPhotoObj)
-		console.log(jsonAlbumObj)
+
 		
     });
 	
 };
+var countObjects = function(){
+console.log(jsonPhotoObj)
+console.log(jsonAlbumObj)
+console.log('jsonPhotoObj length is: ' + jsonPhotoObj.length );
+console.log('jsonAlbumObj length is: ' + jsonAlbumObj.length );	
+}
 
 
 </script>
@@ -137,6 +143,7 @@ $.ajax({
     	<form>
         	<input id="user" type="text" name="user" size="25">
             <input type="button" value="Submit" onClick="submitButton();">
+            <input type="button" value="Count Objects" onClick="countObjects();">
         </form>
 
         <div id="error"></div>
