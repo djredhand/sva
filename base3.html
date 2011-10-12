@@ -32,10 +32,12 @@ var submitButton = function (){
 }
 var loadPicassa = function(user){
 		var jsonAlbumObj = [];
-		var jsonPhotoObj = []
+		
+		var jsonPhotoObj = [];
+		
 		function Album_Photos(){
 			this.photos = []
-		}
+		};
         var json_Album_URI = "https://picasaweb.google.com/data/feed/base/"
             + "user/"       +   user
             + "?alt="       +   "json"
@@ -44,8 +46,7 @@ var loadPicassa = function(user){
             + "&fields="    +   "entry(media:group,id)"
             + "&thumbsize=" +   104;
 
-    $.getJSON(json_Album_URI,
-    function(data){
+    $.getJSON(json_Album_URI,function(data){
         $.each(data.feed.entry, function(i,item){		
 			jsonAlbumObj.push(
 				{	
@@ -53,22 +54,23 @@ var loadPicassa = function(user){
 				}
 			);
 			
+			
             //Thumbnail URL
             $.each(item.media$group.media$thumbnail, function(i,item){
                 var album_thumb_URL = item.url;
                 $('#images').append('<img src="' + album_thumb_URL + '"/>')
-            });
-            //Album Title
-            var album_Title = item.media$group.media$title.$t;
-            $('#images').append("Album Title: " + album_Title + '<br />');
-            //Album Description
-            var album_Description = item.media$group.media$description.$t;
-            $('#images').append("Album Description: " + album_Description + '<br />');
-            //Album ID
-            var album_ID = item.id.$t;
-                //Get Numerical ID from URL
-            album_ID = album_ID.split('/')[9].split('?')[0];
-            $('#images').append("AlbumID: " + album_ID + '<br /><br />');
+				});
+				//Album Title
+				var album_Title = item.media$group.media$title.$t;
+				$('#images').append("Album Title: " + album_Title + '<br />');
+				//Album Description
+				var album_Description = item.media$group.media$description.$t;
+				$('#images').append("Album Description: " + album_Description + '<br />');
+				//Album ID
+				var album_ID = item.id.$t;
+					//Get Numerical ID from URL
+				album_ID = album_ID.split('/')[9].split('?')[0];
+				$('#images').append("AlbumID: " + album_ID + '<br /><br />');
 
     var json_Photo_URI = "https://picasaweb.google.com/data/feed/base/"
         + "user/"       +   user
@@ -120,6 +122,7 @@ $.ajax({
     
         });///END .getJSON function
 		console.log(jsonPhotoObj)
+		console.log(jsonAlbumObj)
 		
     });
 	
@@ -130,7 +133,7 @@ $.ajax({
 		
 	</head>
 	<body>
-    	<h2>Enter your picassa username below: </h2>
+    	<h2>Enter your Picassa username below: </h2>
     	<form>
         	<input id="user" type="text" name="user" size="25">
             <input type="button" value="Submit" onClick="submitButton();">
