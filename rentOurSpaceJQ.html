@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css" media="screen">
+#rentOurSpaceContainer{
+	width:960px;
+	margin:0 auto;
+}
+.section{
+	visibility:hidden;
+	display:none;
+}
+.rentOurSpaceUL{
+	list-style:none;
+	width:250px;
+}
+.rentOurSpaceUL li:hover{
+	cursor:pointer;
+	background-color:#ccc;
+}
+</style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+</head>
+
+<body>
+<div id="rentOurSpaceContainer">
+    <nav id="rentOurSpaceNav">
+        <ul class="rentOurSpaceUL">
+            <li>Book Your Private Event</li>
+            <li>Book Your Public/Ticketed Event</li>
+            <li>Catering</li>
+            <li>Technical Information</li>
+        </ul>
+    <nav>
+    <div id="rentOurSpaceContent">
+    	
+        <div class="section">
+    	<div class="sectionContent">
+        	<p>bookPrivateEvent</p>
+        <!--end #bookPrivateEvent--></div>
+       </div>
+        
+       <div class="section">
+        <div class="sectionContent">
+        	<p>bookPublicEvent</p>
+        <!--end #bookPublicEvent--></div>
+       </div>
+        
+        <div class="section">
+        <div class="sectionContent">
+        	<p>catering</p>
+        <!--end #catering--></div>
+        </div>
+        
+        <div class="section">
+        <div class="sectionContent">
+        	<p>technicalInfo</p>
+        <!--end #technicalInfo--></div>
+        </div>
+        
+    <!--end #rentOurSpaceContent--></div>
+<!--end #rentOurSpaceContainer--></div>
+<script type="text/javascript">
+var nav = document.getElementById("rentOurSpaceNav");
+var navList = $("li");
+for (i=0; i < 4; i++){
+	navList[i].index = i
+		$(navList[i]).click(function(e){
+			var index = e.currentTarget.index;
+			showContent(index);
+			});		
+
+}
+var showContent = function(num){
+	var content = $("#rentOurSpaceContent")
+	var sections = $(".section");
+	for (i=0; i<sections.length;i++){
+		sections[i].index = i;
+		sections[i].style.visibility = "hidden";
+		sections[i].style.display = "none";	
+	}
+	var show = sections[num];
+	//alert(show.style.visibility);
+	show.style.visibility = "visible";
+	show.style.display = "block";
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
