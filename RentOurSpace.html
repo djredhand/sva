@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css" media="screen">
+#bookPrivateEvent{
+	display:none;
+	visibility:hidden;
+}
+#bookPublicEvent{
+	display:none;
+	visibility:hidden;
+}
+#catering{
+	display:none;
+	visibility:hidden;
+}
+#technicalInfo{
+	display:none;
+	visibility:hidden;
+}
+</style>
+</head>
+
+<body>
+<div id="rentOurSpaceContainer">
+    <nav id="rentOurSpaceNav">
+        <ul>
+            <li>Book Your Private Event</li>
+            <li>Book Your Public/Ticketed Event</li>
+            <li>Catering</li>
+            <li>Technical Information</li>
+        </ul>
+    <nav>
+    <div id="rentOurSpaceContent">
+    	
+        <section id="bookPrivateEvent">
+    	<div class="sectionContent">
+        	<p>bookPrivateEvent</p>
+        <!--end #bookPrivateEvent--></div>
+        </section>
+        
+        <section id="bookPublicEvent">
+        <div class="sectionContent">
+        	<p>bookPublicEvent</p>
+        <!--end #bookPublicEvent--></div>
+        </section>
+        
+        <section id="catering">
+        <div class="sectionContent">
+        	<p>catering</p>
+        <!--end #catering--></div>
+        </section>
+        
+        <section id="technicalInfo">
+        <div class="sectionContent">
+        	<p>technicalInfo</p>
+        <!--end #technicalInfo--></div>
+        </section>
+        
+    <!--end #rentOurSpaceContent--></div>
+<!--end #rentOurSpaceContainer--></div>
+<script type="text/javascript">
+var nav = document.getElementById("rentOurSpaceNav");
+var navList = nav.getElementsByTagName("li");
+for (i=0; i < navList.length; i++){
+	navList[i].index = i
+	navList[i].addEventListener("click", function(e){
+		var index = e.currentTarget.index;
+		showContent(index);
+		//console.log(e.currentTarget.parentElement[navList.index])
+		})
+}
+var showContent = function(num){
+	//console.log(index);
+	var content = document.getElementById("rentOurSpaceContent")
+	//console.log(content);
+	var sections = document.getElementsByTagName("section");
+	//console.log(sections);
+	for (i=0; i<sections.length;i++){
+		//console.log(sections[i])
+		sections[i].index = i;
+		sections[i].style.visibility = "hidden";
+		sections[i].style.display = "none";	
+	}
+	var show = sections[num];
+	
+	show.style.visibility = "visible";
+	show.style.display = "block";
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
