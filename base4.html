@@ -1,13 +1,27 @@
 <html>
 	<head>
 <style type="text/css">
-#navImages{
-	width:500px;
-	float:right	
+#thumbs{
+	max-height:120px;
 }
-#images{
+#thumbContainer{
+	float:right;
+	width:400px;
+	max-height:120px;
+	display:inline;
+	overflow-x:scroll;
+	overflow-y:hidden;
+	display:none;
+	visibility:hidden;
+}
+.thumb{
+	float:left;
+	padding:0 0 0 4px;
+}
+#navImages{
 	width:300px;
 	float:left;
+
 }
 </style>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -89,19 +103,19 @@ var loadPicasa = function(user){
 			//Thumbnail URL
 			$.each(item.media$group.media$thumbnail, function(i,item){
 				var album_thumb_URL = item.url;
-				$('#images').append('<img src="' + album_thumb_URL + '"/><br/>')
+				$('#navImages').append('<img src="' + album_thumb_URL + '"/><br/>')
 				});
 				//Album Title
 				var album_Title = item.media$group.media$title.$t;
-				$('#images').append("Album Title: " + album_Title + '<br />');
+				$('#navImages').append("Album Title: " + album_Title + '<br />');
 				//Album Description
 				var album_Description = item.media$group.media$description.$t;
-				$('#images').append("Album Description: " + album_Description + '<br />');
+				$('#navImages').append("Album Description: " + album_Description + '<br />');
 				//Album ID
 				var album_ID = item.id.$t;
 					//Get Numerical ID from URL
 				album_ID = album_ID.split('/')[9].split('?')[0];
-				$('#images').append("AlbumID: " + album_ID + '</p><br />');
+				$('#navImages').append("AlbumID: " + album_ID + '</p><br />');
 
 	var json_Photo_URI = "https://picasaweb.google.com/data/feed/base/"
 		+ "user/"       +   user
@@ -180,22 +194,37 @@ var createNav = function(){
 }
 
 var getAlbum = function(index){
-	$('#navImages').empty();
-	console.log('the current index is: ' + index);
+	$('#thumb').empty();
+	//console.log('the current index is: ' + index);
 	var albumPhotos = jsonPhotoObj[index].photos[index];
-	console.log('# of Photos in album is: ' + albumPhotos.length);
+	//console.log('# of Photos in album is: ' + albumPhotos.length);
+	
 	for (i=0; i<albumPhotos.length; i++){
 		
-		$('#navImages').append(
-		'<img src="' + albumPhotos[i].media$group.media$thumbnail[0].url +
+		$('#thumb').append(
+		'<img class="thumb" src="' + albumPhotos[i].media$group.media$thumbnail[0].url +
 		'" title="' + albumPhotos[i].media$group.media$content[0].url+ '"/>')
 	}
+	
+	//Calculate the width of all the thumbnails together to create horizontal scroll
+	var thumbWidth = albumPhotos[0].media$group.media$thumbnail[0].width;
+	//console.log(thumbWidth);
+	var thumbBoxWidth = albumPhotos.length * thumbWidth;
+	//console.log('thumb box width is: ' + thumbBoxWidth)
+	$('#thumb').width(thumbBoxWidth);
+	$('#thumbContainer').css({
+		'visibility'	: 'visible',
+		'display'		: 'block'
+		});
+	
+	$('')
 }
 var countObjects = function(){
 console.log(jsonPhotoObj)
 console.log(jsonAlbumObj)
 console.log('jsonPhotoObj length is: ' + jsonPhotoObj.length );
-console.log('jsonAlbumObj length is: ' + jsonAlbumObj.length );	
+console.log('jsonAlbumObj length is: ' + jsonAlbumObj.length );
+console.log($("#thumbs").width() );	
 }
 </script>
 		
@@ -212,8 +241,10 @@ console.log('jsonAlbumObj length is: ' + jsonAlbumObj.length );
 
         <div id="error"></div>
         <nav></nav>
-    	<div id="images"></div>
-        <div id="navImages"></div>
+    	<div id="navImages"></div>
+        <div id="thumbContainer">
+        <div id="thumb"></div>
+        <!--end #thumb Container--></div>
 	</body>
 	
 </html>

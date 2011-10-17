@@ -7,28 +7,51 @@
 #rentOurSpaceContainer{
 	width:960px;
 	margin:0 auto;
+	border:1px solid #ccc;
 }
+
 .section{
-	visibility:hidden;
-	display:none;
+	width:500px;
+	
+}
+#rentOurSpaceNav{
+	height:1000px;
 }
 .rentOurSpaceUL{
+	padding:10px;
 	list-style:none;
-	width:250px;
+	margin-top:250px;
+	float:left;
+	
 }
 .rentOurSpaceUL li:hover{
 	cursor:pointer;
 	background-color:#ccc;
+	border:1px solid #999;
+}
+.rentOurSpaceUL li{
+	padding:0 8px;
+	height:40px;
+	border:1px solid #FFF;
+	cursor:pointer;
+	background-color:#ccc;
+}
+.rentOurSpaceUL li a{
+	text-decoration:none;
+	color:#000;
+}
+#rentOurSpaceContent{
+	margin-left:40px;
+	float:left;
 }
 </style>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 </head>
 
 <body>
 <div id="rentOurSpaceContainer">
     <nav id="rentOurSpaceNav">
         <ul class="rentOurSpaceUL">
-            <li>Book Your Private Event</li>
+            <li><a href="#1">Book Your Private Event</a></li>
             <li>Book Your Public/Ticketed Event</li>
             <li>Catering</li>
             <li>Technical Information</li>
@@ -62,31 +85,35 @@
         
     <!--end #rentOurSpaceContent--></div>
 <!--end #rentOurSpaceContainer--></div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
 <script type="text/javascript">
-var nav = document.getElementById("rentOurSpaceNav");
-var navList = $("li");
-for (i=0; i < 4; i++){
-	navList[i].index = i
-		$(navList[i]).click(function(e){
-			var index = e.currentTarget.index;
-			showContent(index);
-			});		
+jQuery(document).ready(function($){
+	$(".section").css({
+		'visibility'	:  'hidden',
+		'display'		:  'none'		 
+		})
+	var navList = $("#rentOurSpaceNav li");
+	navList.click(function(e){
+		var index = navList.index(this);
+		showContent(index);
+	});
 
-}
-var showContent = function(num){
-	var content = $("#rentOurSpaceContent")
-	var sections = $(".section");
-	for (i=0; i<sections.length;i++){
-		sections[i].index = i;
-		sections[i].style.visibility = "hidden";
-		sections[i].style.display = "none";	
+
+	var showContent = function(num){
+		var content = $("#rentOurSpaceContent")
+		var sections = $(".section");
+		for (i=0; i<sections.length;i++){
+			//sections[i].index = i;
+			sections[i].style.visibility = "hidden";
+			sections[i].style.display = "none";	
+		}
+		var show = sections[num];
+		//alert(show.style.visibility);
+		show.style.visibility = "visible";
+		show.style.display = "block";
 	}
-	var show = sections[num];
-	//alert(show.style.visibility);
-	show.style.visibility = "visible";
-	show.style.display = "block";
-}
-
+});
 </script>
 </body>
 </html>
