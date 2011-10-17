@@ -61,16 +61,30 @@
         
     <!--end #rentOurSpaceContent--></div>
 <!--end #rentOurSpaceContainer--></div>
+<div id="test">HELP!!</div>
 <script type="text/javascript">
 var nav = document.getElementById("rentOurSpaceNav");
 var navList = nav.getElementsByTagName("li");
-for (i=0; i < navList.length; i++){
-	navList[i].index = i
-	navList[i].addEventListener("click", function(e){
-		var index = e.currentTarget.index;
-		showContent(index);
-		//console.log(e.currentTarget.parentElement[navList.index])
-		})
+
+	for (i=0; i < navList.length; i++){
+	if (navList[i].addEventListener){
+		navList[i].index = i
+		navList[i].addEventListener("click", function(e){
+			console.log('fired')
+			var index = e.currentTarget.index;
+			showContent(index);
+			//console.log(e.currentTarget.parentElement[navList.index])
+			})
+			
+	}else if (navList[i].attachEvent){
+		navList[i].index = i
+		navList[i].attachEvent('onclick', function(e){
+			alert('this')
+			var index = e.currentTarget.index;
+			showContent(index);
+			//console.log(e.currentTarget.parentElement[navList.index])
+			})
+	}
 }
 var showContent = function(num){
 	//console.log(index);
@@ -89,7 +103,18 @@ var showContent = function(num){
 	show.style.visibility = "visible";
 	show.style.display = "block";
 }
-
+</script>
+<script type="text/javascript">
+var help = document.getElementById("test");
+if (help.addEventListener){
+	help.addEventListener('click',function(){
+	alert('not IE')
+});
+}else if (help.attachEvent){
+help.attachEvent('onclick',function(){
+	alert('help')
+});
+}
 </script>
 </body>
 </html>
