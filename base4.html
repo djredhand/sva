@@ -1,11 +1,15 @@
 <html>
 	<head>
 <style type="text/css">
+#nav{
+	width:200px;
+	float:left;
+}
 #thumbs{
 	max-height:120px;
 }
 #thumbContainer{
-	float:right;
+	float:left;
 	width:400px;
 	max-height:120px;
 	display:inline;
@@ -13,15 +17,19 @@
 	overflow-y:hidden;
 	display:none;
 	visibility:hidden;
+	margin:10px 0 0 0;
 }
 .thumb{
 	float:left;
 	padding:0 0 0 4px;
 }
 #navImages{
-	width:300px;
+	width:200px;
 	float:left;
 
+}
+#bigImage img{
+	width:600px;
 }
 </style>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -195,28 +203,45 @@ var getAlbum = function(index){
 		
 		$('#thumb').append(
 		'<img class="thumb" src="' + albumPhotos[i].media$group.media$thumbnail[0].url +
-		'" title="' + albumPhotos[i].media$group.media$content[0].url+ '"/>')
+		'" title="' + albumPhotos[i].media$group.media$content[0].url+ '"/>');
+		this.albumIndex = index;
+		this.thumbIndex = i;		
 	}
+	var thumbList = $('.thumb');
+	//console.log(thumbList);
+	$.each(thumbList,function(){
+			$(this).click(function(){
+				var thumbIndex = $(this).index();
+				showBigImage(albumIndex, thumbIndex);
+			})
+	})
 	
 	//Calculate the width of all the thumbnails together to create horizontal scroll
 	var thumbWidth = albumPhotos[0].media$group.media$thumbnail[0].width;
-	//console.log(thumbWidth);
-	var thumbBoxWidth = albumPhotos.length * thumbWidth;
+	var thumbPadding =$('.thumb').css("paddingLeft");
+	thumbPadding  = thumbPadding.split("px",2)[0];
+
+	var thumbBoxWidth = albumPhotos.length * (thumbWidth + thumbPadding);
 	//console.log('thumb box width is: ' + thumbBoxWidth)
 	$('#thumb').width(thumbBoxWidth);
 	$('#thumbContainer').css({
 		'visibility'	: 'visible',
 		'display'		: 'block'
 		});
-	
-	$('')
+}
+var showBigImage = function(albumIndex, thumbIndex){
+	$('#bigImage').empty();
+	var div = $('bigImage');
+	var albumPhotos = jsonPhotoObj[albumIndex].photos[albumIndex];
+	var imgSrc = albumPhotos[thumbIndex].media$group.media$content[0].url;	
+	$('#bigImage').append('<img src="' + imgSrc + '" />' )
 }
 var countObjects = function(){
 console.log(jsonPhotoObj)
 console.log(jsonAlbumObj)
 console.log('jsonPhotoObj length is: ' + jsonPhotoObj.length );
 console.log('jsonAlbumObj length is: ' + jsonAlbumObj.length );
-console.log($("#thumbs").width() );	
+console.log($("#thumb").width() );	
 }
 </script>
 		
@@ -232,11 +257,12 @@ console.log($("#thumbs").width() );
         </form>
 
         <div id="error"></div>
-        <nav></nav>
+        <nav id="nav"></nav>
     	<div id="navImages"></div>
         <div id="thumbContainer">
         <div id="thumb"></div>
         <!--end #thumb Container--></div>
+        <div id="bigImage"></div>
 	</body>
 	
-</html>
+</html
