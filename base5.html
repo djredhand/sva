@@ -113,6 +113,7 @@ var loadPicasa = function(user){
 		url: json_Album_URI,
 		dataType: json,
 		async: true,
+		cache: false,
 		success: function(data){
 		$.each(data.feed.entry, function(i,item){		
 			jsonAlbumObj.push(
@@ -141,8 +142,8 @@ var loadPicasa = function(user){
 			type: 'GET',
 			url: json_Photo_URI,
 			dataType: json,
-			async: true,
-			crossDomain: true,
+			async: false,
+			cache: false,
 			success : function(data){
 				var album = new Album_Photos;
 				album.photos[i] = data.feed.entry;
@@ -168,7 +169,7 @@ var createNav = function(){
 	//ul.setAttribute('class','albumNav');
 	
 	//nav .appendChild(ul);
-	
+		
 	$.each(jsonAlbumObj, function(i, item){
 		//console.log(item.Album.media$group.media$thumbnail[0].url);
 		var navThumb = item.Album.media$group.media$thumbnail[0].url;
