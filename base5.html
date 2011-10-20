@@ -1,0 +1,265 @@
+<html>
+	<head>
+<style type="text/css">
+#nav{
+	width:200px;
+	float:left;
+}
+#thumbs{
+	max-height:120px;
+}
+#thumbContainer{
+	float:left;
+	width:400px;
+	max-height:120px;
+	display:inline;
+	overflow-x:scroll;
+	overflow-y:hidden;
+	display:none;
+	visibility:hidden;
+	margin:10px 0 0 0;
+}
+.thumb{
+	float:left;
+	padding:0 0 0 4px;
+}
+#navImages{
+	width:200px;
+	float:left;
+
+}
+#bigImage img{
+	width:600px;
+}
+</style>
+			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>
+//Create Global vars, arrays, and objects//
+
+//Create an Album (array)Object to hold all of the albums
+var jsonAlbumObj = [];
+
+//Create a Photo (array)Object to hold the album's photos
+var jsonPhotoObj = [];
+
+//Need to create a object constructor to create the photo objects that the jsonPhotoObj will hold.
+//This is done dynamically because of the ajax calls to the Picasa API that grabs all of the albums
+//from the user's account.
+function Album_Photos(){
+	this.photos = []
+};
+
+//test if ie or not and then setup a JSONP variable for IE
+// some reason JSONP breaks in Chrome and Firefox
+if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+	alert('IE');
+	var json = "jsonp"
+}
+else{
+	alert('not IE');
+	var json = "json"
+}
+
+//test if user is already defined in url or textbox
+$(document).ready(function(){
+	var userFromURL = (window.location.search.split("?user=", 2))
+	console.log(userFromURL);
+	if (userFromURL == ""){
+		console.log("the non defined user is: '" + userFromURL[1] +  "' This is probably because you just loaded the page :-) ");
+	}
+	else{
+		var user = userFromURL[1];
+		console.log("the defined user is: " + user);
+		$("#user").val(userFromURL[1]);
+		submitButton();
+	}
+
+});
+//Check if user is blank and create an error message--> if no error submit username to Picasa API
+//Need to check for invalid Usernames as well AND lets make the sumbit button more accessible with 
+//carriage returns!
+var submitButton = function (){
+	
+	var user = $("#user").val();
+	
+	if (user.length == 0){
+	$("#error").text("Please Enter a Username!")
+	}
+	else{
+		$("#error").text("");
+		$("#images").empty();
+		loadPicasa(user);
+		
+	}
+}
+	
+//pass user into Picasa API 
+var loadPicasa = function(user){
+	//Just in case, let's clear out anything in these arrays before loading stuff into them	
+	jsonAlbumObj = [];
+	jsonPhotoObj = [];
+	//Create the URI for the Album API call
+	var json_Album_URI = "https://picasaweb.google.com/data/feed/base/"
+		+ "user/"       +   user
+		+ "?alt="       +   "json"
+		+ "&kind="      +   "album"
+		+ "&hl="        +   "en_US"
+		+ "&fields="    +   "entry(media:group,id)"
+		+ "&thumbsize=" +   104;
+	
+	//Get the data back from the API call and store into the (array)Object
+	$.ajax({
+		type: 'GET', 
+		url: json_Album_URI,
+		dataType: json,
+		async: true,
+		success: function(data){
+		$.each(data.feed.entry, function(i,item){		
+			jsonAlbumObj.push(
+				{	
+					Album:  item
+				}
+			);
+		
+		//Get Numerical ID from URL to pass into the ajax function so we
+		//can grab all the ablbums
+		var album_ID = item.id.$t;
+		album_ID = album_ID.split('/')[9].split('?')[0];
+				
+
+	var json_Photo_URI = "https://picasaweb.google.com/data/feed/base/"
+		+ "user/"       +   user
+		+ "/albumid/"   +   album_ID
+		+ "?alt="       +   "json"
+		+ "&kind="      +   "photo"
+		+ "&hl="        +   "en_US"
+		+ "&fields="    +   "entry(media:group)"
+		+ "&thumbsize=" +   104;
+
+
+		$.ajax({
+			type: 'GET',
+			url: json_Photo_URI,
+			dataType: json,
+			async: true,
+			crossDomain: true,
+			success : function(data){
+				var album = new Album_Photos;
+				album.photos[i] = data.feed.entry;
+				jsonPhotoObj.push(album);
+				
+				//insert all of images to the jsonAlbumObject so we can display it later
+				jsonAlbumObj[i].numberOfImages = jsonPhotoObj[i].photos[i].length;
+				alert(jsonPhotoObj[i].photos[i].length);
+				
+			}
+			});//END .ajax function
+			
+		  });//END .get Each function
+		}
+	});//END .getJSON function		
+
+};//END loadPicasa
+
+//create the nav
+var createNav = function(){
+	//var nav = document.getElementById("nav")//$("#nav")
+	//var ul = document.createElement("ul");
+	//ul.setAttribute('class','albumNav');
+	
+	//nav .appendChild(ul);
+	
+	$.each(jsonAlbumObj, function(i, item){
+		//console.log(item.Album.media$group.media$thumbnail[0].url);
+		var navThumb = item.Album.media$group.media$thumbnail[0].url;
+		$("ul.albumNav").append('<img src ="' + navThumb + '"/><br/>' +
+		'<span>' + item.Album.media$group.media$title.$t + '</span> (' + 
+		item.numberOfImages + ')<br/>');
+		var navItem = $("ul.albumNav img")[i];
+		//console.log(navItem);
+		
+		//add "click" event listeners to each nav item and pass the index to the getAlbum function 
+		$(navItem).click(function(){alert('fired');
+		getAlbum(i);
+		})
+		
+	})
+}
+
+var getAlbum = function(index){
+	
+	$('#thumb').empty();
+	//console.log('the current index is: ' + index);
+	var albumPhotos = jsonPhotoObj[index].photos[index];
+	//console.log('# of Photos in album is: ' + albumPhotos.length);
+	
+	for (i=0; i<albumPhotos.length; i++){
+		
+		$('#thumb').append(
+		'<img class="thumb" src="' + albumPhotos[i].media$group.media$thumbnail[0].url +
+		'" title="' + albumPhotos[i].media$group.media$content[0].url+ '"/>');
+		this.albumIndex = index;
+		this.thumbIndex = i;		
+	}
+	var thumbList = $('.thumb');
+	//console.log(thumbList);
+	$.each(thumbList,function(){
+			$(this).click(function(){
+				var thumbIndex = $(this).index();
+				showBigImage(albumIndex, thumbIndex);
+			})
+	})
+	
+	//Calculate the width of all the thumbnails together to create horizontal scroll
+	var thumbWidth = albumPhotos[0].media$group.media$thumbnail[0].width;
+	var thumbPadding =$('.thumb').css("paddingLeft");
+	thumbPadding  = thumbPadding.split("px",2)[0];
+
+	var thumbBoxWidth = albumPhotos.length * (thumbWidth + thumbPadding);
+	//console.log('thumb box width is: ' + thumbBoxWidth)
+	$('#thumb').width(thumbBoxWidth);
+	$('#thumbContainer').css({
+		'visibility'	: 'visible',
+		'display'		: 'block'
+		});
+}
+var showBigImage = function(albumIndex, thumbIndex){
+	$('#bigImage').empty();
+	var div = $('#bigImage');
+	var albumPhotos = jsonPhotoObj[albumIndex].photos[albumIndex];
+	var imgSrc = albumPhotos[thumbIndex].media$group.media$content[0].url;	
+	$('#bigImage').append('<img src="' + imgSrc + '" />' )
+}
+var countObjects = function(){
+console.log(jsonPhotoObj)
+console.log(jsonAlbumObj)
+console.log('jsonPhotoObj length is: ' + jsonPhotoObj.length );
+console.log('jsonAlbumObj length is: ' + jsonAlbumObj.length );
+console.log($("#thumb").width() );	
+}
+</script>
+		
+	</head>
+	<body>
+    	<h2>Enter your Picassa username below: </h2>
+    	<form>
+        	<input id="user" type="text" name="user" size="25">
+            <input type="button" value="Submit" onClick="submitButton();">
+            <input type="button" value="Count Objects in memory " onClick="countObjects();">
+            <input type="button" value="Create Nav " onClick="createNav();">
+            
+        </form>
+
+        <div id="error"></div>
+        <nav id="nav">
+        	<ul class="albumNav">
+            </ul>
+        </nav>
+    	<div id="navImages"></div>
+        <div id="thumbContainer">
+        <div id="thumb"></div>
+        <!--end #thumb Container--></div>
+        <div id="bigImage"></div>
+	</body>
+	
+</html>
