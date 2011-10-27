@@ -1,6 +1,15 @@
+<?php
+session_start();
+$_SESSION = array();
+$time = new DateTime();
+$date = $time -> getTimeStamp();
+$_SESSION[0] = $date;
+$js = file_get_contents('gallery.js');
+$_SESSION[1] = $js;
+?>
 <html>
 	<head>
-    <meta http-equiv="refresh" content="no-cache" />
+    <meta http-equiv="pragma" content="no-cache" />
 <style type="text/css">
 #nav{
 	width:200px;
@@ -62,7 +71,18 @@ input{
         <!--end #thumb Container--></div>
         <div id="bigImage"></div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript" src="gallery.js"></script>
+        <script type="text/javascript">
+		<?php echo($_SESSION[1]);?>
+		</script>
 	</body>
 	
 </html>
+
+<?php
+session_destroy();
+$_SESSION[0] = "";
+$_SESSION[1] = "";
+?>
+<?php
+echo($_SESSION[0]);
+?>

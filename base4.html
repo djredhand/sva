@@ -49,7 +49,16 @@ function Album_Photos(){
 	this.photos = []
 };
 
-
+//test if ie or not and then setup a JSONP variable for IE
+// some reason JSONP breaks in Chrome and Firefox
+if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+	alert('IE');
+	var json = "jsonp"
+}
+else{
+	alert('not IE');
+	var json = "json"
+}
 
 //test if user is already defined in url or textbox
 $(document).ready(function(){
@@ -99,7 +108,12 @@ var loadPicasa = function(user){
 		+ "&thumbsize=" +   104;
 	
 	//Get the data back from the API call and store into the (array)Object
-	$.getJSON(json_Album_URI,function(data){
+	$.ajax({
+		type: 'GET', 
+		url: json_Album_URI,
+		dataType: json,
+		async: true,
+		success: function(data){
 		$.each(data.feed.entry, function(i,item){		
 			jsonAlbumObj.push(
 				{	
@@ -126,55 +140,34 @@ var loadPicasa = function(user){
 		$.ajax({
 			type: 'GET',
 			url: json_Photo_URI,
+			dataType: json,
+			async: true,
+			crossDomain: true,
 			success : function(data){
-				
 				var album = new Album_Photos;
-				album.photos[i] = data.feed.entry
+				album.photos[i] = data.feed.entry;
 				jsonPhotoObj.push(album);
-				//insert the number of images to the jsonAlbumObject so we can display it later
+				
+				//insert all of images to the jsonAlbumObject so we can display it later
 				jsonAlbumObj[i].numberOfImages = jsonPhotoObj[i].photos[i].length;
-			   /*$.each(data.feed.entry, function(i,item){
-					 
-					//$('#images').append("Album Photos: <br />");
-					//Photo URL
-					$.each(item.media$group.media$content, function(i,item){
-						
-						var photo_URL = item.url;
-						$('#images').append("Image Photo URL: " + photo_URL + '<br />');
-					});
-					//Thumbnail URL
-					$.each(item.media$group.media$thumbnail, function(i,item){
-						var photo_Thumb_URL = item.url;
-						$('#images').append("Image Thumbnail URL: " + photo_Thumb_URL + '<br />');
-					});
-					//Photo Title
-					var photo_Title = item.media$group.media$title.$t;
-					$('#images').append("Image Photo_Title: " + photo_Title + '<br />');
-					//Photo Description
-					var photo_Description = item.media$group.media$description.$t;
-					$('#images').append("Image Photo Description: " + photo_Description + '<br /><br />');
-					
-					//console.log(pushInto)
-					
-				});*/
-			},
-			dataType: 'json',
-			async: false
-			
+				alert(jsonPhotoObj[i].photos[i].length);
+				
+			}
 			});//END .ajax function
 			
-		});//END .get Each function
-		
+		  });//END .get Each function
+		}
 	});//END .getJSON function		
 
 };//END loadPicasa
 
 //create the nav
 var createNav = function(){
-	var nav = $("nav")
-	var ul = document.createElement("ul");
-	$(ul).attr('class','albumNav')
-	$(nav).append(ul);
+	//var nav = document.getElementById("nav")//$("#nav")
+	//var ul = document.createElement("ul");
+	//ul.setAttribute('class','albumNav');
+	
+	//nav .appendChild(ul);
 	
 	$.each(jsonAlbumObj, function(i, item){
 		//console.log(item.Album.media$group.media$thumbnail[0].url);
@@ -186,7 +179,7 @@ var createNav = function(){
 		//console.log(navItem);
 		
 		//add "click" event listeners to each nav item and pass the index to the getAlbum function 
-		$(navItem).click(function(){
+		$(navItem).click(function(){alert('fired');
 		getAlbum(i);
 		})
 		
@@ -194,6 +187,7 @@ var createNav = function(){
 }
 
 var getAlbum = function(index){
+	
 	$('#thumb').empty();
 	//console.log('the current index is: ' + index);
 	var albumPhotos = jsonPhotoObj[index].photos[index];
@@ -231,7 +225,7 @@ var getAlbum = function(index){
 }
 var showBigImage = function(albumIndex, thumbIndex){
 	$('#bigImage').empty();
-	var div = $('bigImage');
+	var div = $('#bigImage');
 	var albumPhotos = jsonPhotoObj[albumIndex].photos[albumIndex];
 	var imgSrc = albumPhotos[thumbIndex].media$group.media$content[0].url;	
 	$('#bigImage').append('<img src="' + imgSrc + '" />' )
@@ -257,7 +251,10 @@ console.log($("#thumb").width() );
         </form>
 
         <div id="error"></div>
-        <nav id="nav"></nav>
+        <nav id="nav">
+        	<ul class="albumNav">
+            </ul>
+        </nav>
     	<div id="navImages"></div>
         <div id="thumbContainer">
         <div id="thumb"></div>
@@ -265,4 +262,4 @@ console.log($("#thumb").width() );
         <div id="bigImage"></div>
 	</body>
 	
-</html
+</html>
