@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+	<style type="text/css">
+	#slideshow{
+	width: 400px;
+	height: 400px;
+	}
+	.img{
+	margin:150px 0 0 200px;
+	position:absolute;
+	background:url(sprite.jpg) no-repeat;
+	}
+	</style>
+</head>
+
+<body>
+	<div id="slideshow">
+
+	</div>
+<script>
+	var frames = 3;//set the number of frames in the sprite
+	var frameRate = 130; //set the frame rate in milliseconds
+	var frameW = 70;
+	var frameH = 70;
+	var bgImage = "sprite.jpg";//set the sprite image as a background
+	var d = document.getElementById("slideshow");
+	var active = 0;
+	var step = 1;
+	var stepSpeed = 10;
+	var down = 0;
+	
+	//create the amount of divs needed for the sprite animation
+	//based of the frames var
+	(function(){
+		for (var i=0;i<frames;i++){
+			var div = document.createElement("div");
+			div.style.backgroundImage = bgImage;
+			div.className="img";
+			div.style.width = frameW +"px";
+			div.style.height = frameH +"px";
+			d.appendChild(div);
+		}
+	})();//Ed anon function 
+	
+	gallery();//call gallery before the Interval, so we don't have to wait. 
+	window.setInterval(gallery,frameRate);//Set the interval and mimick frame rate.
+	function gallery(){
+		for (var i=0; i<d.children.length; i++){
+			d.children[i].style.display = "none";
+			var x = active*-frameW;
+			var y = 0;
+			var pos = x+"px " + y+"px";
+			d.children[i].style.backgroundPosition= pos;
+		}
+		d.children[active].style.marginLeft = step*stepSpeed+ "px";
+		d.children[active].style.marginTop = down*30+ "px";
+		d.children[active].style.display = "block";
+		active += 1;
+		resetActive();//reset the sprite back to zero in order to cycle through again
+		step +=1;
+		stepDown();
+		}
+		function resetActive(){
+			if (active>=frames){
+			active = 0;
+			}
+		}
+		function stepDown(){
+			if(step>=30){
+				step=0;
+				down+=1;
+		}		
+	}
+</script>
+</body>
+</html>
