@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+.video{
+	cursor:pointer;
+	width:300px;
+	float:left;
+	text-align:center;
+	padding:20px 65px;
+}
+span.href{
+	display:none;
+}
+.clear{
+	clear:both;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="http://s3.broadway.com/mediaspot/10.1454.css"/>
+</head>
+
+<div id="wrapd">
+
+	<h1 class="mod">VIEW OUR WSB TV SEASON SPECIAL!</h1>
+	<p>&nbsp;</p>
+	<p>WSB TV Channel 2 aired a half hour primetime special highlighting all of the exciting shows coming to Atlanta in the 2011-2012 Season.</p>
+    
+    	<div id="video"></div>
+        <div class="video"><span class="href">http://www.youtube.com/embed/Ajqbpcml4Mg</span>
+        <a href="#"><img src="http://s3.broadway.com/mediaspot/2.1819.jpg" width="200" height="150" border="0" /></a>
+        <h2>Click Here to View Part 1</h2>
+        </div><!--end #vid1-->
+        
+        <div class="video"><span class="href">http://www.youtube.com/embed/vv_qHB1tsfw</span>
+        <a href="#"><img src="http://s3.broadway.com/mediaspot/2.1819.jpg" width="200" height="150" border="0" /></a>
+        <h2>Click Here to View Part 2</h2>
+        </div>
+        <br class="clear" />
+</div><!--end #wrapd-->
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+/**/
+jQuery(document).ready(function($) {
+	var href = document.location.href;
+	var h = $(window).height();
+	var vidH = h/2 - 50;
+	$('.video').click(function(){
+		var div = $(document.createElement("div") );		
+		var link1 = $(this).children('.href').text();
+		div.css({
+			backgroundColor	: "#d1d1d1",
+			background		: "url(http://s3.broadway.com/mediaspot/2.1780.png)",
+			backgroundRepeat: "repeat-y",
+			backgroundRepeat: "repeat-x",
+			position		: "absolute",
+			top				: "0",
+			left			: "0",
+			width			: "100%",
+			height			: h * 2,
+			zIndex			: 9999
+			});
+		div.addClass('keyVidOverlay');
+		
+		var b = $('#video')
+		b.append(div);
+		
+		$.ajax({
+			url: href,
+			context: document.body,
+			success: function(){
+				var div = $('.keyVidOverlay');
+				var vidDiv = $(document.createElement("div") );
+				
+				vidDiv.css({
+					border		: "3px solid #000",
+					background	: "#000",
+					width		: "610px",
+					height		: "435px",
+					marginLeft	: "auto",
+					marginRight	: "auto",
+					marginTop	: "200px"
+					
+					})
+				vidDiv.append('<span class="vidDiv" style="cursor:pointer;font-weight:bold; font-size:18px; color:#FFF; float:right;">Click Here to Close - X</span>')
+				vidDiv.addClass("keyVidDiv");
+				div.append(vidDiv)
+				var i = $(document.createElement("iframe") );
+				i.addClass('keyIframe');
+				i.attr({
+					src: link1,
+					border		: 0,
+					frameborder	: 0
+					})
+				i.css({
+					width	: "600px",
+					height	: "400px"
+					});
+				vidDiv.append(i);
+				
+				$('.keyVidOverlay').click(function(){
+					$(this).css({
+						display		:	"none",
+						visibility	:	"hidden"
+						});
+					$(this).empty();
+				})
+			}
+		});//END .ajax
+	})//End #keyVid .click
+});
+</script>
+</body>
+</html>
