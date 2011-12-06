@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+#one{ background:#999; width:50px; height:50px;}
+#two{ background:#060;width:50px; height:50px;}
+#three{ background:#30F;width:50px; height:50px;}
+#four{ background:#F00;width:50px; height:50px;}
+#five{ background:#C96;width:50px; height:50px;}
+#slideshow{
+	background:#FF0;
+	width:500px;
+	height:500px;
+	margin:50px auto;	
+}
+.img{position:absolute; margin:200px 220px;}	
+</style>
+</head>
+
+<body>
+<div id="slideshow">
+<div class="img" id="one">1</div>
+<div class="img" id="two">2</div>
+<div class="img" id="three">3</div>
+<div class="img" id="four">4</div>
+<div class="img" id="five">5</div>
+</div><!--end Slideshow-->
+<script type="text/javascript">
+	var s = document.getElementById("slideshow");
+	var active = 0;
+	slide();
+	window.setInterval(slide,1000);
+	function slide(){
+		for (i=0; i<s.children.length; i++){
+			s.children[i].style.display = "none";
+		}
+		if (active < 5){
+			s.children[active].style.display = "block";
+			active +=1;	
+		}
+		else{
+			active=0;
+			slide();
+		}
+	}
+</script>
+</body>
+</html>
