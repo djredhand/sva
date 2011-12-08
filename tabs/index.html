@@ -8,14 +8,18 @@
 <body>
 	<div id="tabby">
       <ul>
-        <li class="box"><a href="#season">1</a> all clickable</li>
-        <li class="box"><a href="#2">2</a> all clickable</li>
-        <li class="box"><a href="#3">3</a> all clickable</li>
-        <li class="box"><a href="#4">4</a> all clickable</li>
-        <li class="box"><a href="#5">5</a> all clickable</li>
+        <li><a href="#season">1</a> all clickable</li>
+        <li><a href="#2">2</a> all clickable</li>
+        <li><a href="#3">3</a> all clickable</li>
+        <li><a href="#4">4</a> all clickable</li>
+        <li><a href="#5">5</a> all clickable</li>
         </ul>
         <div id="season">
-            <p>Season goes here</p>
+        	<div>
+            	<p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+            </div>
         <!--end #1--></div>
         <div id="2">
           <p>Div 2</p>
@@ -34,11 +38,11 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="tabby.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
+
 	$('#tabby').tabby({
-		defaultTab: '#season'
+		defaultTab: '#5'
 		});
-});
+
 </script>
 </body>
 </html>
