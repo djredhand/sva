@@ -1,0 +1,31 @@
+#tabby ul{
+	list-style:none;
+	width:960px;
+	margin:0 auto;
+	padding:0;
+	-webkit-margin-before:0;
+	-webkit-margin-after:0;
+}
+#tabby ul li{
+	display:inline;
+	background:#ccc;
+	border-top:1px solid #333;
+	border-left:1px solid #333;
+	border-right:1px solid #333;
+	border-bottom:1px solid #666;
+	cursor:pointer;
+}
+.selected{
+	background-color:#333;
+}
+#tabby div{
+	background:#666;
+	width:960px;
+	margin:auto;
+	min-height:500px;
+	color: #fff;
+}
+#tabby div p{
+	margin:0;
+	padding:0;
+}
