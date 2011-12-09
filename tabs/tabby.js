@@ -1,4 +1,4 @@
-// Tabs jQuery Plugin
+	// Tabs jQuery Plugin
 (function ($){
 	$.fn.tabby = function(arguments){
 		var defaults = {
@@ -6,11 +6,10 @@
 		};
 		var options		= $.extend(defaults, arguments);
 		var links		= [];
-		var divIds		= [];
+		var divIdsTabby		= [];
 		var obj			= $(this); 
 		var _display	= options.defaultTab//arguments from user;
-		
-		$("a",obj).each(function(){			
+		$("a.tabby", obj).each(function(){			
 			var url = this.href.split('#')[1];
 			$(this).parent().click(function(){
 				showDiv(url);
@@ -19,13 +18,13 @@
 			
 		if(this.href.match(/#/)) { 
 		  links.push(this); 
-		  divIds.push("#"+this.href.split('#')[1]);//push with hash to append url
+		  divIdsTabby.push("#"+this.href.split('#')[1]);//push with hash to append url
 		};
 	  });
 	  
 	//find default tab and display - if no default display the 1st div
-	for(items in divIds){
-	  $(divIds[items]).css({display: 'none'});};
+	for(items in divIdsTabby){
+	  $(divIdsTabby[items]).css({display: 'none'});};
 	if(location.href.split('#')[1] != ""){
 	  var link = location.href.split('#')[1];
 	  showDiv(link);
@@ -34,19 +33,23 @@
 	 
 	//Click handler for the list items
 	function showDiv(link){
-		for (items in divIds){
-		  $(divIds[items]).css({display: 'none'});
-		  if (link == divIds[items].split('#')[1]){
+		console.dir(divIdsTabby);
+		for (i=0; i< divIdsTabby.length; i++){
+			console.log('divIdsTabby[items] is: ' +divIdsTabby[i]);
+			var id = divIdsTabby[i];
+			console.log("id is: " + id);
+		  $(divIdsTabby[i]).css({display: 'none'});
+		  if (link == id.split('#')[1]){
 			  _display = "showDivMatch";
-			  selected($(links[items]).parent().parent(), $(links[items]).parent());
+			 selected($(links[i]).parent().parent(), $(links[i]).parent());
 		  };
 		};
 		// Test if no default and no url match
 		if(_display == "" && options.defaultTab == ""){
-		  for (items in divIds){
-			$(divIds[items]).css({display: 'none'});  
+		  for (items in divIdsTabby){
+			$(divIdsTabby[items]).css({display: 'none'});  
 		  };
-		  link = $(divIds[0]).attr('id');
+		  link = $(divIdsTabby[0]).attr('id');
 		  _display = "";
 		  showDiv(link);
 		};
