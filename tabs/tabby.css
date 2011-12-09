@@ -24,7 +24,7 @@
 #tabby div{
 	background:#666;
 	width:960px;
-	margin:auto;
+	margin:0 auto 20px auto;
 	min-height:500px;
 	color: #fff;
 }

@@ -14,72 +14,57 @@
 			var url = this.href.split('#')[1];
 			$(this).parent().click(function(){
 				showDiv(url);
-				selected($(this).parent(), $(this));
 				window.location.hash =  url;
-			} );
+			});
 			
-        if(this.href.match(/#/)) { 
-          links.push(this); 
-          divIds.push("#"+this.href.split('#')[1]);//push with hash to append url
-        } 
-      });
+		if(this.href.match(/#/)) { 
+		  links.push(this); 
+		  divIds.push("#"+this.href.split('#')[1]);//push with hash to append url
+		};
+	  });
 	  
-	  //find default tab and display - if no default display the 1st div
-	  for(items in divIds){
-		  //console.log(divIds[items])
-		  $(divIds[items]).css({display: 'none'});};
-		  /*if(options.defaultTab == divIds[items]){
-			  //alert(location.href.split('#')[1]);
-			 _display = "match";
-		  };
-		  if(location.href.split('#')[1] != ""){
-			  var loc = location.href.split('#')[1];
-			  _display = loc
-			  }
-		  //log the div elems for the tabs - console.log($(divIds[items]) );
+	//find default tab and display - if no default display the 1st div
+	for(items in divIds){
+	  $(divIds[items]).css({display: 'none'});};
+	if(location.href.split('#')[1] != ""){
+	  var link = location.href.split('#')[1];
+	  showDiv(link);
 	  };
-	  if (_display == "match"){
-		  alert('yes')
-	  }
-	  //If there is no match with the default param, then show 1st div
-	  //_display == "match" ? $(options.defaultTab).css({display: 'block'}) : $(divIds[0]).css({display: 'block'});
-	  _display == "match" ? alert('Yes ' + _display) : alert('No ' + _display);
-	 // console.log(_display)
-	  */
-	   if(location.href.split('#')[1] != ""){
-		  var link = location.href.split('#')[1];
-		  showDiv(link);
-	  }
 
 	 
-	  //Click handler for the list items
-	  function showDiv(link){
+	//Click handler for the list items
+	function showDiv(link){
+		for (items in divIds){
+		  $(divIds[items]).css({display: 'none'});
+		  if (link == divIds[items].split('#')[1]){
+			  _display = "showDivMatch";
+			  selected($(links[items]).parent().parent(), $(links[items]).parent());
+		  };
+		};
+		// Test if no default and no url match
+		if(_display == "" && options.defaultTab == ""){
 		  for (items in divIds){
-			  $(divIds[items]).css({display: 'none'});
-			  if (link == divIds[items].split('#')[1]){
-				  _display = "showDivMatch";
-				  selected($(links[items]).parent().parent(), $(links[items]).parent());
-			  }
-			  if(_display == "" && options.defaultTab == ""){
-				  for (items in divIds){
-					$(divIds[items]).css({display: 'none'});  
-				  }
-				  $(divIds[0]).css({display: 'block'});
-				  options.defaultTab = $(divIds[0]).attr('id');
-			  }
-		  }
-		  //alert(_display)
-		  //need to crate a showDefault() function 
-		  _display == "showDivMatch" 	? $('#'+link).css({display: 'block'}) : $(options.defaultTab).css({display: 'block'});
-		 // _display == "noShowDivMatch" 	? $(divIds[0]).css({display: 'block'}) : $(divIds[0]).css({display: 'block'});
-		  
-	  }
+			$(divIds[items]).css({display: 'none'});  
+		  };
+		  link = $(divIds[0]).attr('id');
+		  _display = "";
+		  showDiv(link);
+		};
+		
+	//Final test if a default is defined and no url match
+	if (_display == options.defaultTab){
+		link = options.defaultTab.split('#')[1];
+		_display = "";
+		showDiv(link);
+	}
+		_display == "showDivMatch" ? $('#'+link).css({display: 'block'}) : $(options.defaultTab).css({display: 'block'});  
+	  };
 	  
 	  function selected(ul, li){
 		  ul.children().each(function(){
 			  $(this).removeAttr('class');
 		  });
 		  li.addClass('selected');
-	  }	  
-	};
+	  };	  
+};
 })(jQuery);
