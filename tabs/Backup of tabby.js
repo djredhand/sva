@@ -60,18 +60,14 @@
 				  _display = "showDivMatch";
 				  selected($(links[items]).parent().parent(), $(links[items]).parent());
 			  }
-			  if(_display == "" && options.defaultTab == ""){
-				  for (items in divIds){
-					$(divIds[items]).css({display: 'none'});  
-				  }
-				  $(divIds[0]).css({display: 'block'});
-				  options.defaultTab = $(divIds[0]).attr('id');
+			  else{
+				  _display = "noShowDivMatch"
 			  }
 		  }
-		  //alert(_display)
+		  alert(_display)
 		  //need to crate a showDefault() function 
 		  _display == "showDivMatch" 	? $('#'+link).css({display: 'block'}) : $(options.defaultTab).css({display: 'block'});
-		 // _display == "noShowDivMatch" 	? $(divIds[0]).css({display: 'block'}) : $(divIds[0]).css({display: 'block'});
+		  _display == "noShowDivMatch" 	? $(divIds[0]).css({display: 'block'}) : $(divIds[0]).css({display: 'block'});
 		  
 	  }
 	  
