@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" media="screen" rel="stylesheet" href="tabby.css"/>
+<link type="text/css" media="screen" rel="stylesheet" href="season.css"/>
+<title>Custom Tabs - Tabby</title>
+</head>
+<body>
+	<div id="season">
+    	<div class="season">
+        	<p>Season Stuff goes here</p>
+        </div>
+    <!--end #season--></div>
+	<div id="tabby">
+      <ul>
+        <li><a class="tabby" href="#season">1</a> all clickable</li>
+        <li><a class="tabby" href="#2">2</a> all clickable</li>
+        <li><a class="tabby" href="#3">3</a> all clickable</li>
+        <li><a class="tabby" href="#4">4</a> all clickable</li>
+        <li><a class="tabby" href="#5">5</a> all clickable</li>
+        </ul>
+        <div id="season">
+        	<div>
+            	<p>Season goes here <a href="#q">2</a></p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p>Season goes here</p>
+                <p><a name="q"></a>Season goes here</p>
+            </div>
+        <!--end #1--></div>
+        <div id="2">
+        	<div>
+            <p>Div 2</p>
+            <p>Div 2</p>
+            <p>Div 2</p>
+            <p>Div 2</p>
+             <ul>
+                <li><a href="#season">1</a> all clickable</li>
+                <li><a href="#2">2</a> all clickable</li>
+                <li><a href="#3">3</a> all clickable</li>
+                <li><a href="#4">4</a> all clickable</li>
+                <li><a href="#5">5</a> all clickable</li>
+             </ul>
+        	</div>
+          <p>Div 2</p>
+      <!--end #2--></div>
+      <div id="3">
+      <!--end #3--></div>
+      <div id="4">
+        <p>Div 4</p>
+      <!--end #4--></div>
+      <div id="5">
+        <p>Div 5</p>
+        <div id="tabby2">
+      <ul>
+        <li><a class="tabby" href="#season2">1</a> all clickable</li>
+        <li><a class="tabby" href="#22">2</a> all clickable</li>
+        </ul>
+        <div id="season2">
+            	<p>Season2</p>
+        <!--end #1--></div>-
+        <div id="22">
+        	<p>22</p>
+      <!--end #2--></div>
+	<!--end #tabby2--></div>
+      <!--end #5--></div>
+	<!--end #tabby--></div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="tabby_beta_0.1.js"></script>
+<script type="text/javascript">	
+jQuery(document).ready(function($){
+	$('#tabby').tabby();
+	$('#tabby2').tabby({defaultTab: "#season2"});
+});
+</script>
+</body>
+</html>

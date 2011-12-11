@@ -1,34 +1,63 @@
+/*Javascript Enabled style
+
 #tabby ul{
 	list-style:none;
 	width:960px;
 	margin:0 auto;
 	padding:0;
-	-webkit-margin-before:0;
-	-webkit-margin-after:0;
-}
-
+	}
+	
 #tabby ul li{
 	display:inline;
+}
+*/
+#tabby ul{
+	list-style:none;
+	width:960px;
+	margin:0 auto;
+	padding:0;
+	position:fixed;
+	top:180px;
+	left:0;
+	}
+#tabby ul li{
 	background:#ccc;
 	border-top:1px solid #333;
 	border-left:1px solid #333;
 	border-right:1px solid #333;
 	border-bottom:1px solid #666;
 	cursor:pointer;
+	width:100px;
+	padding:0 8px;
 }
-#tabby ul li.selected{
+#tabby ul li a{
+	text-decoration:none;
+	color:#000;
+}
+#tabby ul  li.selected{
 	background-color:#666;
 	color:#fff;
-	
 }
+#tabby ul li.selected a{
+	text-decoration:none;
+	color:#fff;
+}
+/*Style the divs that Tabby populates (shows/hides), this is usually the container of 
+all elements inside the Tabby div*/
 #tabby div{
 	background:#666;
-	width:960px;
-	margin:0 auto 20px auto;
+	width:910px;
+	/*Give each div a little room on bottom just in case the user browser has JS turned off*/
+	margin:25px auto 20px auto;
 	min-height:500px;
 	color: #fff;
+	padding:25px;
+}
+#tabby div.inner{
+	padding:0;
 }
 #tabby div p{
 	margin:0;
 	padding:10px 0;
 }
+

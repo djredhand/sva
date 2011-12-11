@@ -1,4 +1,4 @@
-	// Tabs jQuery Plugin
+// Tabs jQuery Plugin
 (function ($){
 	$.fn.tabby = function(arguments){
 		var defaults = {
@@ -9,6 +9,10 @@
 		var divIdsTabby		= [];
 		var obj			= $(this); 
 		var _display	= options.defaultTab//arguments from user;
+		$(obj).children('div').each(function(){
+			var id = $(this).attr('id') + "_tabby";
+			$(this).attr('id', id);
+		});
 		$("a.tabby", obj).each(function(){			
 			var url = this.href.split('#')[1];
 			$(this).parent().click(function(){
@@ -22,45 +26,45 @@
 		};
 	  });
 	  
+	//create a default tab if none is provided
+	options.defaultTab == '' ? options.defaultTab = divIdsTabby[0] : options.defaultTab; 
+	  
 	//find default tab and display - if no default display the 1st div
-	for(items in divIdsTabby){
-	  $(divIdsTabby[items]).css({display: 'none'});};
+	for (i=0; i< divIdsTabby.length; i++){
+	  $(divIdsTabby[i]+'_tabby').css({display: 'none'});};
 	if(location.href.split('#')[1] != ""){
-	  var link = location.href.split('#')[1];
-	  showDiv(link);
+	  var urlLink = location.href.split('#')[1];
+	  showDiv(urlLink);
 	  };
 
 	 
 	//Click handler for the list items
-	function showDiv(link){
-		console.dir(divIdsTabby);
+	function showDiv(urlLink){
 		for (i=0; i< divIdsTabby.length; i++){
-			console.log('divIdsTabby[items] is: ' +divIdsTabby[i]);
 			var id = divIdsTabby[i];
-			console.log("id is: " + id);
-		  $(divIdsTabby[i]).css({display: 'none'});
-		  if (link == id.split('#')[1]){
+		  $(divIdsTabby[i]+'_tabby').css({display: 'none'});
+		  if (urlLink == (id.split('#')[1]) ){
 			  _display = "showDivMatch";
 			 selected($(links[i]).parent().parent(), $(links[i]).parent());
 		  };
 		};
 		// Test if no default and no url match
 		if(_display == "" && options.defaultTab == ""){
-		  for (items in divIdsTabby){
-			$(divIdsTabby[items]).css({display: 'none'});  
+		  for (i=0; i< divIdsTabby.length; i++){
+			$(divIdsTabby[i]).css({display: 'none'});  
 		  };
-		  link = $(divIdsTabby[0]).attr('id');
+		  urlLink = $(divIdsTabby[0]).attr('id') +"_tabby";
 		  _display = "";
-		  showDiv(link);
+		  showDiv(urlLink);
 		};
 		
 	//Final test if a default is defined and no url match
 	if (_display == options.defaultTab){
-		link = options.defaultTab.split('#')[1];
+		urlLink = options.defaultTab.split('#')[1];
 		_display = "";
-		showDiv(link);
+		showDiv(urlLink);
 	}
-		_display == "showDivMatch" ? $('#'+link).css({display: 'block'}) : $(options.defaultTab).css({display: 'block'});  
+		_display == "showDivMatch" ? $('#'+urlLink+'_tabby').css({display: 'block'}) : $(options.defaultTab+'_tabby').css({display: 'block'});  
 	  };
 	  
 	  function selected(ul, li){
