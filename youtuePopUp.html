@@ -17,6 +17,22 @@ span.href{
 .clear{
 	clear:both;
 }
+/*the div for the video overlay*/
+.overlay{
+	background:url(http://s3.broadway.com/mediaspot/2.1780.png);
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	z-index:9999;
+}
+.close-vidDiv{
+	cursor:pointer;
+	font-weight:bold; 
+	font-size:18px; 
+	color:#FFF; 
+	float:right;
+}
 </style>
 <link rel="stylesheet" type="text/css" href="http://s3.broadway.com/mediaspot/10.1454.css"/>
 </head>
@@ -29,7 +45,7 @@ span.href{
     
     	<div id="video"></div>
         <div class="video"><span class="href">http://www.youtube.com/embed/Ajqbpcml4Mg</span>
-        <a href="#"><img src="http://s3.broadway.com/mediaspot/2.1819.jpg" width="200" height="150" border="0" /></a>
+        <img src="http://s3.broadway.com/mediaspot/2.1819.jpg" width="200" height="150" border="0" />
         <h2>Click Here to View Part 1</h2>
         </div><!--end #vid1-->
         
@@ -46,69 +62,54 @@ span.href{
 jQuery(document).ready(function($) {
 	var href = document.location.href;
 	var h = $(window).height();
-	var vidH = h/2 - 50;
+	var overlayH = h/2 - 250;
 	$('.video').click(function(){
-		var div = $(document.createElement("div") );		
+		var div = $(document.createElement("div") );
 		var link1 = $(this).children('.href').text();
-		div.css({
-			backgroundColor	: "#d1d1d1",
-			background		: "url(http://s3.broadway.com/mediaspot/2.1780.png)",
-			backgroundRepeat: "repeat-y",
-			backgroundRepeat: "repeat-x",
-			position		: "absolute",
-			top				: "0",
-			left			: "0",
-			width			: "100%",
-			height			: h * 2,
-			zIndex			: 9999
-			});
-		div.addClass('keyVidOverlay');
 		
-		var b = $('#video')
+		//need to add the height of the overlay dynamically
+		//depending on whatever the user's window size is
+		div.css({height	: h});
+		div.addClass('overlay');
+		
+		var b = $('body');
 		b.append(div);
+		var vidDiv = $(document.createElement("div") );
 		
-		$.ajax({
-			url: href,
-			context: document.body,
-			success: function(){
-				var div = $('.keyVidOverlay');
-				var vidDiv = $(document.createElement("div") );
-				
-				vidDiv.css({
-					border		: "3px solid #000",
-					background	: "#000",
-					width		: "610px",
-					height		: "435px",
-					marginLeft	: "auto",
-					marginRight	: "auto",
-					marginTop	: "200px"
-					
-					})
-				vidDiv.append('<span class="vidDiv" style="cursor:pointer;font-weight:bold; font-size:18px; color:#FFF; float:right;">Click Here to Close - X</span>')
-				vidDiv.addClass("keyVidDiv");
-				div.append(vidDiv)
-				var i = $(document.createElement("iframe") );
-				i.addClass('keyIframe');
-				i.attr({
-					src: link1,
-					border		: 0,
-					frameborder	: 0
-					})
-				i.css({
-					width	: "600px",
-					height	: "400px"
-					});
-				vidDiv.append(i);
-				
-				$('.keyVidOverlay').click(function(){
-					$(this).css({
-						display		:	"none",
-						visibility	:	"hidden"
-						});
-					$(this).empty();
-				})
-			}
-		});//END .ajax
+		vidDiv.css({
+			border			: "3px solid #000",
+			background	: "#000",
+			width				: "610px",
+			height			: "435px",
+			marginLeft	: "auto",
+			marginRight	: "auto",
+			marginTop		: overlayH
+			
+			})
+		vidDiv.append('<span class="close-vidDiv">Click Here to Close - X</span>')
+		vidDiv.addClass("keyVidDiv");
+		div.append(vidDiv)
+		var i = $(document.createElement("iframe") );
+		i.addClass('keyIframe');
+		i.attr({
+			src					: link1,
+			border			: 0,
+			frameborder	: 0
+			})
+		i.css({
+			width		: "600px",
+			height	: "400px"
+			});
+		vidDiv.append(i);
+		
+		$('.overlay').click(function(){
+			$(this).css({
+				display			:	"none",
+				visibility	:	"hidden"
+				});
+			$(this).empty();
+		})
+
 	})//End #keyVid .click
 });
 </script>
