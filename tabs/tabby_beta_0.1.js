@@ -43,6 +43,12 @@
 		for (i=0; i< divIdsTabby.length; i++){
 			var id = divIdsTabby[i];
 		  $(divIdsTabby[i]+'_tabby').css({display: 'none'});
+		  
+		  if(divIdsTabby[i] == options.defaultTab){
+			  _display == "showDivMatch";
+			  selected($(links[i]).parent().parent(), $(links[i]).parent()); 
+		  };
+		  
 		  if (urlLink == (id.split('#')[1]) ){
 			  _display = "showDivMatch";
 			 selected($(links[i]).parent().parent(), $(links[i]).parent());
@@ -64,6 +70,10 @@
 		_display = "";
 		showDiv(urlLink);
 	}
+
+	console.log(options.defaultTab);
+	
+	
 		_display == "showDivMatch" ? $('#'+urlLink+'_tabby').css({display: 'block'}) : $(options.defaultTab+'_tabby').css({display: 'block'});  
 	  };
 	  
