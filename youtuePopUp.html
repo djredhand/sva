@@ -26,12 +26,26 @@ span.href{
 	width:100%;
 	z-index:9999;
 }
+/*The div that holds the youtube video*/
+.vidDiv {
+	background:#000;
+	width: 610px;
+	height: 435px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px 20px 10px 30px;
+}
 .close-vidDiv{
 	cursor:pointer;
 	font-weight:bold; 
 	font-size:18px; 
-	color:#FFF; 
+	color:#fff; 
 	float:right;
+}
+/*Iframe Styles*/
+.i-frame{
+	width		: 600px;
+	height	: 400px;
 }
 </style>
 <link rel="stylesheet" type="text/css" href="http://s3.broadway.com/mediaspot/10.1454.css"/>
@@ -44,12 +58,12 @@ span.href{
 	<p>WSB TV Channel 2 aired a half hour primetime special highlighting all of the exciting shows coming to Atlanta in the 2011-2012 Season.</p>
     
     	<div id="video"></div>
-        <div class="video"><span class="href">http://www.youtube.com/embed/Ajqbpcml4Mg</span>
+        <div class="video"><span class="href">http://www.youtube.com/embed/I5cYgRnfFDA</span>
         <img src="http://s3.broadway.com/mediaspot/2.1819.jpg" width="200" height="150" border="0" />
         <h2>Click Here to View Part 1</h2>
         </div><!--end #vid1-->
         
-        <div class="video"><span class="href">http://www.youtube.com/embed/vv_qHB1tsfw</span>
+        <div class="video"><span class="href">http://www.youtube.com/embed/7EXOxilOi7Y</span>
         <a href="#"><img src="http://s3.broadway.com/mediaspot/2.1819.jpg" width="200" height="150" border="0" /></a>
         <h2>Click Here to View Part 2</h2>
         </div>
@@ -58,59 +72,40 @@ span.href{
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript">
-/**/
 jQuery(document).ready(function($) {
-	var href = document.location.href;
-	var h = $(window).height();
-	var overlayH = h/2 - 250;
 	$('.video').click(function(){
-		var div = $(document.createElement("div") );
-		var link1 = $(this).children('.href').text();
-		
+		var href = document.location.href;
+		var h = $(window).height();
+		var overlayH = h/2 - 250;
+		var overlayDiv = $(document.createElement("div") );
+		var videoLink = $(this).children('.href').text();
+		var b = $('body');
 		//need to add the height of the overlay dynamically
 		//depending on whatever the user's window size is
-		div.css({height	: h});
-		div.addClass('overlay');
+		overlayDiv.css({height	: h});
+		overlayDiv.addClass('overlay');//use the .overlay css styles
+		b.append(overlayDiv);//append the overlay to the body
 		
-		var b = $('body');
-		b.append(div);
-		var vidDiv = $(document.createElement("div") );
+		var vidDiv = $(document.createElement("div") );//create the div container for the video 
+		vidDiv.addClass('vidDiv');//use the .vidDiv css styles
+		vidDiv.css({marginTop: overlayH})//position the video using dynamicaly calculated height positioning
+		vidDiv.append('<span class="close-vidDiv">Close - X</span>')// append the close button to the video div
+		vidDiv.addClass("vidDiv");//use the .vidDiv styles the video 
+		overlayDiv.append(vidDiv)//append the div to the 
 		
-		vidDiv.css({
-			border			: "3px solid #000",
-			background	: "#000",
-			width				: "610px",
-			height			: "435px",
-			marginLeft	: "auto",
-			marginRight	: "auto",
-			marginTop		: overlayH
-			
-			})
-		vidDiv.append('<span class="close-vidDiv">Click Here to Close - X</span>')
-		vidDiv.addClass("keyVidDiv");
-		div.append(vidDiv)
 		var i = $(document.createElement("iframe") );
-		i.addClass('keyIframe');
+		i.addClass('i-frame');
 		i.attr({
-			src					: link1,
+			src					: videoLink,
 			border			: 0,
 			frameborder	: 0
 			})
-		i.css({
-			width		: "600px",
-			height	: "400px"
-			});
 		vidDiv.append(i);
 		
-		$('.overlay').click(function(){
-			$(this).css({
-				display			:	"none",
-				visibility	:	"hidden"
-				});
-			$(this).empty();
+		$('.close-vidDiv').click(function(){
+			$('.overlay').remove();
 		})
-
-	})//End #keyVid .click
+	})//End video.click()
 });
 </script>
 </body>
