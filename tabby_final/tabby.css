@@ -1,0 +1,76 @@
+/*
+* Tabby Styles
+*/
+#tabby ul{
+	list-style:none;
+	width:960px;
+	margin:0 auto;
+	padding:0px;
+	position:fixed;
+	top:180px;
+	left:0;
+	}
+#tabby ul li{
+	background:#ccc;
+	border-top:1px solid #333;
+	border-left:1px solid #333;
+	border-right:1px solid #333;
+	border-bottom:1px solid #666;
+	cursor:pointer;
+	width:100px;
+	padding:0 8px;
+}
+#tabby ul li a{
+	text-decoration:none;
+	color:#000;
+}
+#tabby ul  li.selected{
+	background-color:#666;
+	color:#fff;
+}
+#tabby ul li.selected a{
+	text-decoration:none;
+	color:#fff;
+}
+/*
+* Use the Visually hidden techniqur from HTML5 Boilerplate
+* so content that is not visible is still available for screen readers
+*/
+.visuallyHidden { 
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+/*
+* Style the divs that Tabby populates (shows/hides), this is usually the container of 
+* all elements inside the Tabby div
+*/
+#tabby div{
+	background:#666;
+	width:910px;
+	/*Give each div a little room on bottom just in case the user browser has JS turned off*/
+	margin:25px auto 20px auto;
+	color: #fff;
+	padding:25px;
+}
+#tabby div.inner{
+	padding:0;
+}
+#tabby div p{
+	margin:0;
+	padding:10px 0;
+}
+#mainHeader{
+	width:930px;
+	margin:0 auto;
+	height:200px;
+	background-color:#CCC;
+	border:1px solid #000;
+	padding:15px;
+}
+.inner div{ margin:0 !important; padding:0 !important;min-height:0 !important }
