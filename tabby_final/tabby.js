@@ -54,8 +54,6 @@
 			urlLink = options.defaultTab;
 			showDiv(urlLink);
 		}
-		//console.dir(location.href.split('#')[1] );
-		//console.log('fired');
 	 
 	// Click handler for the list items
 	function showDiv(urlLink){
