@@ -1,6 +1,6 @@
 // Tabs jQuery Plugin
-(function ($){
-	$.fn.tabby = function(arguments){
+(function ($) {
+	$.fn.tabby = function (arguments){
 		var defaults = {
 			// must include hash (#) if given as default argument
 			// example: "#five", where #five is the div id 
@@ -37,15 +37,25 @@
 	  
 	// create a default tab if none is provided
 	options.defaultTab === '' ? options.defaultTab = divIdsTabby[0] : options.defaultTab;
+	
 	 
 	// find default tab and display - if no default display the 1st div
 	for (i=0; i< divIdsTabby.length; i++){
 	  $(divIdsTabby[i] + options.divAppend).addClass('visuallyHidden');
 	}
+	// if hash link exists send it as arg to showDiv()
 	if(location.href.split('#')[1] !== ''){
 	  var urlLink = location.href.split('#')[1];
 	  showDiv(urlLink);
 	  }
+		// else if hash is blank set arg = defaultTab to showDiv() 
+		else if (location.href.split('#')[1] === ''){
+			console.log(options.defaultTab );
+			urlLink = options.defaultTab;
+			showDiv(urlLink);
+		}
+		//console.dir(location.href.split('#')[1] );
+		//console.log('fired');
 	 
 	// Click handler for the list items
 	function showDiv(urlLink){
@@ -66,9 +76,12 @@
 		  _display = '';
 		  showDiv(urlLink);
 		}
+		if(location.href.split('#')[1] === '#'){
+				alert('no!');
+			}
 		
 		// final test if a default is defined and no url match
-		if (_display == options.defaultTab){
+		if (_display === options.defaultTab){
 			urlLink = options.defaultTab.split('#')[1];
 			_display = '';
 			showDiv(urlLink);
@@ -76,6 +89,7 @@
 		
 		// show the appropriate div or show the default Tab
 		_display == 'showDivMatch' ? $('#'+urlLink + options.divAppend).removeClass('visuallyHidden') :   errorUrl();
+		
 	}//end showDiv
 	 
 	// go ahead and show the first tab if an illlegal arg is found in the url
