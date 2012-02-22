@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+#one{ background:#999; width:50px; height:50px;}
+#two{ background:#060;width:50px; height:50px;}
+#three{ background:#30F;width:50px; height:50px;}
+#four{ background:#F00;width:50px; height:50px;}
+#five{ background:#C96;width:50px; height:50px;}
+#slideshow{
+	background:#FF0;
+	width:500px;
+	height:500px;
+	margin:50px auto;	
+}
+.headline{position:absolute; margin:200px 220px;display:none;opacity:0;}	
+</style>
+</head>
+
+<body>
+<div id="slideshow">
+<div class="headline" id="one">the best ever!!</div>
+<div class="headline" id="two">2</div>
+<div class="headline" id="three">3</div>
+<div class="headline" id="four">4</div>
+<div class="headline" id="five">5</div>
+</div><!--end Slideshow-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+	var headlines = {};
+	headlines.s = document.getElementById('slideshow');
+	headlines.active = 0;
+	headlines.pause = false;
+	headlines.old;
+	
+	headlines.slide = function (){
+		if (headlines.pause === true){
+			return;
+		}
+		else{
+			if ((headlines.active +1) <= headlines.s.children.length){
+				//console.log('active is: ' + active)
+				var elm = $(headlines.s.children[headlines.active]);
+				elm.css('display','block')
+				elm.animate({
+					opacity: "1"
+				}, function(){
+						if(headlines.old){
+							headlines.old.animate({
+								opacity: '0'
+							})			
+						}	
+						headlines.old = $(this);							
+					})
+				headlines.active +=1;	
+			}
+			else{
+				headlines.active=0;
+				headlines.slide();
+			}
+		}
+	}//end Slide
+	headlines.slide();
+	window.setInterval(headlines.slide,3000);
+	$('.headline').mouseenter(function(){
+		console.log('headline pause')
+		headlines.pause = true;
+	})
+	$('.headline').mouseleave(function(){
+		headlines.pause = false;
+	})
+</script>
+</body>
+</html>
